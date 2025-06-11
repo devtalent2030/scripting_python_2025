@@ -1,0 +1,2 @@
+# scripting_python_2025
+basics of the Python programming language, including data types, control structures and functions. In addition to fundamental Python scripting, features and use-cases of Python scripts applicable to cloud environments will be demonstrated and discussed including command line interface (CLI) interactions, use of JavaScript Object Notation (JSON), web scraping, RESTful architecture, basic data analytics, and testing.

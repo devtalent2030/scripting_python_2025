@@ -1,0 +1,81 @@
+f(x) = x + 3
+
+if x=2 , then f(2) = 5
+
+
+
+def f(x: int) -> float:
+   return x + 3
+
+f(2)
+
+
+
+
+1. is_positive(x) = x > 0
+
+
+
+def is_positive(x: float) -> bool:
+    """Return True if x is a positive number, False otherwise."""
+    return x > 0
+
+if __name__ == "__main__":
+    print(is_positive(5))
+    print(is_positive(5.67))
+    print(is_positive(-5))
+   
+2.
+
+2.	is_power_of_two(x) = x ** 2
+
+if x = 2, if x = 3
+
+is_power_of_two(2) = 4, 
+
+is_power_of_two(3) = 8,
+
+
+def is_power_of_two(x):
+  return 
+
+
+def is_power_of_two(x: int) -> bool:
+    if x <= 0:
+        return False
+    while x > 1:
+        if x % 2 != 0:
+            return False
+        x = x // 2
+    return True
+
+
+def is_power_of_two(x: int) -> bool:
+    return x > 0 and (x & (x - 1)) == 0
+
+
+# Test it
+print(is_power_of_two(1))  # ✅ 2^0
+print(is_power_of_two(2))  # ✅ 2^1
+print(is_power_of_two(3))  # ❌
+print(is_power_of_two(8))  # ✅ 2^3
+
+
+
+
+
+
+
+
+GIBI_TO_GIGA_RATIO = 1_073_741_824 / 1_000_000_000
+
+
+
+gibi_to_giga(x) = x * GIBI_TO_GIGA_RATIO
+
+
+
+
+
+
+giga_to_gibi(x) = x/GIBI_TO_GIGA_RATIO

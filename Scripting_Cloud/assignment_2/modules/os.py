@@ -1,5 +1,8 @@
 import os
-
+import smtplib            # To send emails
+import ssl                # Secure email transport
+from email.mime.text import MIMEText  # Format email body
+import argparse
 """
 
 
@@ -27,6 +30,18 @@ print("Files in this folder:", files)
 # Delete a file (careful!)
 if os.path.exists("old_report.csv"):
     os.remove("old_report.csv")
+
+    
+
+# print(dir(argparse))
+
+"""
+print(dir(smtplib))
+print(dir(ssl))
+print(dir(MIMEText))
+
+print(help(argparse))
+"""
 
 """
 

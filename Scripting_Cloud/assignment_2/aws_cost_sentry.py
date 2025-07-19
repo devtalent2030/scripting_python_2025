@@ -1,22 +1,37 @@
-# ─── INPUT‑STAGE IMPORTS ───────────────────────────────────────────────
+
+# Name: Oyelekan Ogunrinu    
+# Date: 18-07-2025
+# Program Description:
+# This script watches my AWS Cost-and-Usage CSV and automatically:
+
+# Loads the CSV into a pandas DataFrame.
+# Aggregates daily spend per AWS service.
+# Calculates day-over-day % change.
+# Flags any spike that exceeds a user-chosen threshold.
+# Prints a Rich table of all services and  if requested 
+# sends an e-mail summary (only when a spike occurs, or always
+# with --notify-always).
+
+
+
 import argparse         # CLI contract
 import os               # Filesystem sanity checks
 import pandas as pd     # Columnar analytics
 
-# ─── PROCESS‑STAGE IMPORTS ─────────────────────────────────────────────
+
 import math             # Deterministic rounding (ceil) if we extend output
 import datetime         # Future-proof: timestamp reports & email subjects
 
-# ─── OUTPUT‑STAGE IMPORTS ──────────────────────────────────────────────
+
 from rich.console import Console
 from rich.table import Table
 import smtplib, ssl
 from email.mime.text import MIMEText
 
 
-# ═══════════════════════════════════════════════════════════════════════
-# 1. CLI CONTRACT (single responsibility: parse + validate argv)         
-# ═══════════════════════════════════════════════════════════════════════
+
+# CLI CONTRACT       
+
 def parse_args() -> argparse.Namespace:
     """
     Build and immediately parse the command-line interface.
@@ -59,9 +74,9 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
-# ═══════════════════════════════════════════════════════════════════════
-# 2. INGEST  →  AGGREGATE (pure functions, no side‑effects)             
-# ═══════════════════════════════════════════════════════════════════════
+
+           
+
 def load_csv(path: str) -> pd.DataFrame:
     """
     Safely load the AWS CUR CSV into memory.
@@ -111,9 +126,9 @@ def aggregate(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-# ═══════════════════════════════════════════════════════════════════════
-# 3. DETECT ANOMALIES                                                   
-# ═══════════════════════════════════════════════════════════════════════
+
+#  DETECT ANOMALIES                                                   
+
 def detect_spikes(pivot: pd.DataFrame, threshold: float) -> pd.DataFrame:
     """
     Identify services whose day-over-day Δ exceeds the threshold.
@@ -133,9 +148,9 @@ def detect_spikes(pivot: pd.DataFrame, threshold: float) -> pd.DataFrame:
     )
 
 
-# ═══════════════════════════════════════════════════════════════════════
-# 4. RENDER TO TERMINAL                                                 
-# ═══════════════════════════════════════════════════════════════════════
+
+#  RENDER TO TERMINAL                                                 
+
 console = Console()
 
 def render_table(pivot: pd.DataFrame, spikes: pd.DataFrame) -> None:
@@ -163,9 +178,9 @@ def render_table(pivot: pd.DataFrame, spikes: pd.DataFrame) -> None:
         )
 
 
-# ═══════════════════════════════════════════════════════════════════════
-# 5. OPTIONAL EMAIL                                                     
-# ═══════════════════════════════════════════════════════════════════════
+
+# OPTIONAL EMAIL                                                     
+
 def send_email(body: str, to_addr: str, cfg: dict) -> None:
     """
     Fire a plaintext email via SSL-secured SMTP.
@@ -191,9 +206,9 @@ def send_email(body: str, to_addr: str, cfg: dict) -> None:
         s.sendmail(cfg["sender"], [to_addr], msg.as_string())
 
 
-# ═══════════════════════════════════════════════════════════════════════
-# 6. GLUE  (imperative orchestration)                                  
-# ═══════════════════════════════════════════════════════════════════════
+
+# GLUE  (imperative orchestration)                                  
+
 def main() -> None:
     """
     Orchestrate ETL→detect→render(+optional alert).
@@ -217,6 +232,6 @@ def main() -> None:
             "password": "app-password"
         })
 
-# Kick‑off only when invoked directly, not on import.
+
 if __name__ == "__main__":
     main()
